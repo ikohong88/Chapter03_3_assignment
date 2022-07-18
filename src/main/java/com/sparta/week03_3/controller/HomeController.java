@@ -26,19 +26,28 @@ public class HomeController {
         return "index";
     }
 
+    // 로그인 화면
     @GetMapping("/user/loginView")
     public String login() {
         return "login";
     }
-
+    
+    // 사용자 회원 가입
     @GetMapping("/user/signup")
     public String signup() {
         return "signup";
     }
-
+    
+    // 점포 등록 화면
     @GetMapping("/restaurant/registration")
     public String restaurantRegistration() {
         return "restaurantRegister";
+    }
+
+    // 점포 음식 등록 화면
+    @GetMapping("/restaurant/food/registration")
+    public String foodRegistration() {
+        return "foodRegister";
     }
 
 
@@ -48,6 +57,6 @@ public class HomeController {
 //        2. DB 테이블 ID (id)
     @GetMapping("/restaurant/{restaurantId}/foods")
     public String searchFood(@PathVariable String restaurantId) {
-        return "food";
+        return "menu";
     }
 }

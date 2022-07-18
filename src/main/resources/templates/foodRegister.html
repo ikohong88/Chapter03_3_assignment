@@ -9,23 +9,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <title>배송은 여기야 | 점포 정보 등록</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <title>배송은 여기야 | 점포 식품 등록</title>
     <script>
-        function registration() {
+        $(document).ready(function () {
+            let test = $.cookie('RestaurantID');
+            console.log(test);
+        })
+        function foodRegistration() {
+            let RestaurantID = $.cookie('RestaurantID');
+            console.log(RestaurantID);
             let name = $("#name").val();
             let FoodPrice = $("#FoodPrice").val();
             let imageURL = $("#imageURL").val();
 
+            if (RestaurantID === null) {
+
+            }
             if (name === "") {
                 alert("식품명을 입력해주세요.")
             } else if (FoodPrice === "") {
                 alert("식품 가격을 입력해주세요.")
-            } else if (imageURL === "") {
-
             } else {
                 $.ajax({
                     type:"POST",
-                    url:"/restaurant/{restaurantId}/food/register",
+                    // 1 수정 필요
+                    url:"/restaurant/1/food/register",
                     data:{
                         "name":name,
                         "price":FoodPrice,
@@ -61,10 +70,10 @@
     <input type="text" id="FoodPrice" placeholder="100원 ~ 1,000,000원 사이 | 100원 단위 입력" class="login-input-box">
     <div id="FoodPrice-failed" style="display:none" class="alert alert-danger" role="alert">식품 가격을 입력해주세요</div>
 
-    <div class="login-id-label">이미지 등록</div>
+    <div class="login-id-label">이미지 등록 (선택사항)</div>
     <input type="test" id="imageURL" placeholder="이미지 URL을 등록해주세요." class="login-input-box">
     <div id="imageURL-failed" style="display:none" class="alert alert-danger" role="alert">비밀번호가 일치하지 않습니다.</div>
-    <button id="login-id-submit" onclick="registration()">식품 등록</button>
+    <button id="login-id-submit" onclick="foodRegistration()">식품 등록</button>
     <button id="cancel-button" onclick="cancel()">취소</button>
 </div>
 </body>

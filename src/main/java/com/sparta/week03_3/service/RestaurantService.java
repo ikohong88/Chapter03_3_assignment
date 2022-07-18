@@ -51,13 +51,9 @@ public class RestaurantService {
             throw new IllegalArgumentException("기본 배달비를 500원 단위로 입력해주세요.");
         }
 
-
-        String result = "";
-
         Restaurant restaurant = new Restaurant(name,minOrderPrice,deliveryFee);
         restaurantRepository.save(restaurant);
 
-        result = "점포 정보가 정상적으로 등록 되었습니다.";
-        return result;
+        return "점포 정보가 정상적으로 등록 되었습니다.";
     }
 }

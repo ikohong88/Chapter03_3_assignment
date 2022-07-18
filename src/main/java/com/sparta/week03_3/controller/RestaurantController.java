@@ -6,6 +6,7 @@ import com.sparta.week03_3.model.Restaurant;
 import com.sparta.week03_3.repository.FoodRepository;
 import com.sparta.week03_3.service.FoodService;
 import com.sparta.week03_3.service.RestaurantService;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,8 +63,8 @@ public class RestaurantController {
 //        2. 100 원 단위로만 입력 가능 (예. 2,220원 입력 시 에러발생. 2,300원 입력 가능)
 //        3. 허용값이 아니거나 100원 단위 입력이 아닌 경우 에러 발생시킴
     @PostMapping("/restaurant/{restaurantId}/food/register")
-    public String foodRegister(@PathVariable String restaurantId, FoodDto foodDto) {
-
-        return foodService.registerFood(foodDto);
+    public String foodRegister(@PathVariable Long restaurantId, FoodDto foodDto) {
+        System.out.println("restaurantId = " + restaurantId);
+        return foodService.registerFood(foodDto, restaurantId);
     }
 }

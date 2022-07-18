@@ -4,6 +4,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor // 기본생성자를 만듭니다.
 @Getter
@@ -22,9 +26,20 @@ public class Restaurant {
     @Column(nullable = false)
     private Integer deliveryFee;
 
+//    @OneToMany(mappedBy = "FOOD")
+//    private List<Food> food = new ArrayList<>();
+
+    public void updateRestaurant(String name, Integer minOrderPrice, Integer deliveryFee) {
+        this.name = name;
+        this.minOrderPrice = minOrderPrice;
+        this.deliveryFee = deliveryFee;
+    }
+
+
     public Restaurant(String name, Integer minOrderPrice, Integer deliveryFee) {
         this.name = name;
         this.minOrderPrice = minOrderPrice;
         this.deliveryFee = deliveryFee;
+//        this.food = food;
     }
 }

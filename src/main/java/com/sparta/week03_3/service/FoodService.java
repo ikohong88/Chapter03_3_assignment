@@ -15,25 +15,29 @@ public class FoodService {
         this.foodRepository = foodRepository;
     }
 
-    public String registerFood(FoodDto requestDto) {
+    public String registerFood(FoodDto requestDto, Long restaurantId) {
         String name = requestDto.getName();
         Integer price = requestDto.getPrice();
-        Long restaurantId = requestDto.getRestaurantId();
         String imageURL = requestDto.getImageURL();
+
+        if (imageURL.equals("")) {
+            imageURL = "https://www.urbanbrush.net/web/wp-content/uploads/edd/2019/03/urbanbrush-20190324064729186591.png";
+        }
 
 //        Optional<Food> check_id = foodRepository.findByRestaurantId(restaurantId);
 //        Optional<Food> check_name = foodRepository.findbyName(name);
 
         if (name.equals("")) {
             throw new IllegalArgumentException("식품명을 입력해주세요.");
+        } else if  (price < 100 || price > 1000000) {
+            throw new IllegalArgumentException("식품 가격은 100원 ~ 1,000,000원 사이로 입력해주세요.");
+        } else if (price % 100 != 0) {
+            throw  new IllegalArgumentException("식품 가격은 100원 단위로 입력해주세요.");
         }
-
-        String result = "";
 
         Food food = new Food(restaurantId,name,price,imageURL);
         foodRepository.save(food);
 
-        result = "식품 정보가 정상적으로 등록 되었습니다.";
-        return result;
+        return "식품 정보가 정상적으로 등록 되었습니다.";
     }
 }

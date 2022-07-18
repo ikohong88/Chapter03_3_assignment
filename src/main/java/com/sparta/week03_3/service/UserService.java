@@ -59,12 +59,12 @@ public class UserService {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
         // 사용자 ROLE 확인
-        else if (requestDto.isAdmin()) {
+        else if (!requestDto.getAdminToken().equals("")) {
             if (!requestDto.getAdminToken().equals(ADMIN_TOKEN)) {
                 throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
             }
             role = UserRoleEnum.ADMIN;
-        } else if (requestDto.isOwner()) {
+        } else if (!requestDto.getOwnerToken().equals("")) {
             if (!requestDto.getOwnerToken().equals(OWNER_TOKEN)) {
                 throw new IllegalArgumentException("점포 점주 암호가 틀려 등록이 불가능합니다.");
             }
@@ -77,8 +77,6 @@ public class UserService {
         User user = new User(username, password, role);
         userRepository.save(user);
 
-        result = "회원가입이 정상적으로 되었습니다.";
-
-        return result;
+        return "회원가입이 정상적으로 되었습니다.";
     }
 }

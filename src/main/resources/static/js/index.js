@@ -2,15 +2,21 @@ $(document).ready(function () {
     // $.removeCookie("1P_JAR");
     // let grade = rank();
     listing();
-
+    let box = document.getElementById("member_info");
+    console.log($.cookie('RestaurantID'));
+    // 쿠키안에 token이 있는 경우
     if ($.cookie('token')) {
         $.ajaxSetup({
             headers:{
                 'Authorization': $.cookie('token')
             }
         })
-    } else {
-        window.location.href = '/user/loginView';
+        box.style.display = "block";
+    }
+    // 쿠키안에 토큰이 없는 경우
+    else {
+        alert("JWT 토큰이 생성되지 않았습니다.");
+        box.style.display = "none";
     }
 
     $.ajax({
@@ -21,12 +27,22 @@ $(document).ready(function () {
             const username = response.username;
             const isAdmin = !!response.admin;
             const isOwner = !!response.owner;
-            console.log(username);
-            $('#username').text(username);
-            if (isAdmin) {
-                showProduct(true);
+            if (username !== undefined) {
+                box.style.display = "block";
             } else {
-                showProduct();
+                box.style.display = "none";
+            }
+            $('#username').text(username);
+
+            if (isAdmin) {
+                // showProduct(true);
+                $('#authority').text("관리자");
+
+            } else if (isOwner) {
+                // showProduct();
+                $('#authority').text("점주");
+            } else {
+                $('#authority').text("고객");
             }
         },
         error: function() {
@@ -66,20 +82,13 @@ function login() {
     window.location.href = "/user/loginView"
 }
 
-// 로그아웃 버튼
-// 로그아웃은 내가 가지고 있는 토큰만 쿠키에서 없애면 됩니다.
-function logout() {
-    $.removeCookie('mytoken');
-    alert('로그아웃!')
-    window.location.reload();
-}
 
 function restaurantRegister() {
     window.location.href = "/restaurant/registration"
 }
 
 function foodRegister() {
-    window.location.href = "/restaurant/1/foods"
+    window.location.href = "/restaurant/food/registration"
 }
 
 // function change() {
@@ -111,7 +120,7 @@ function listing() {
                 if (name != null) {
                     let temp_html = `<div class="col">
                                             <div class="card h-100" onclick="cert_info(${restaurantId})" id="card">
-                                                <img src="https://cdn-icons-png.flaticon.com/512/5983/5983508.png" class="card-img-top" alt="...">
+                                                <img src="https://img.freepik.com/free-vector/man-wearing-medical-mask-and-client_52683-41296.jpg?w=2000" class="card-img-top" alt="...">
                                                 <div class="card-body">
                                                     <h5 class="card-title">점표명 : ${name}</h5>
                                                     <h5 class="card-title">주문 최소금액 : ${minOrderPrice} 원</h5>
@@ -140,14 +149,15 @@ function search_button() {
             // console.log(response)
             let rows = response['result']
             for (let i = 0; i < rows.length; i++) {
-                let name = rows[i]['jmNm']
-                let num = rows[i]['certificateNum']
-                let index = rows[i]['index']
+                let name = response[i]['name']
+                let minOrderPrice = response[i]['minOrderPrice']
+                let restaurantId = response[i]['id']
+                let deliveryFee = response[i]['deliveryFee']
 
                 if (name != null) {
                     let temp_html = `<div class="col">
-                                            <div class="card h-100" onclick="cert_info(${num}, ${index})" id="card">
-                                                <img src="https://cdn-icons-png.flaticon.com/512/5983/5983508.png" class="card-img-top" alt="...">
+                                            <div class="card h-100" onclick="cert_info(${index})" id="card">
+                                                <img src="https://www.urbanbrush.net/web/wp-content/uploads/edd/2019/03/urbanbrush-20190324064729186591.png" class="card-img-top" alt="...">
                                                 <div class="card-body">
                                                     <h5 class="card-title">${name}</h5>
                                                 </div>

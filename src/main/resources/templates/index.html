@@ -61,7 +61,7 @@
         .logo {
             width:400px;
             height:200px;
-            background-image: url('/static/logo.png');
+            /*background-image: url('/static/logo.png');*/
             background-position: center;
             background-size: 40%;
             background-repeat: no-repeat;
@@ -81,18 +81,39 @@
 
     <!--  자바스크립트 영역  -->
     <script src="/js/index.js"></script>
+    <script>
+        // 로그아웃 버튼
+        // 로그아웃은 내가 가지고 있는 토큰만 쿠키에서 없애면 됩니다.
+        function logout() {
+            $.removeCookie('token',{ path: '/' });
+            $.removeCookie('RestaurantID',{ path: '/restaurant' });
+            alert('로그아웃!')
+            window.location.reload();
+        }
+    </script>
 </head>
 <body>
 <div class="main_nav">
-    <p style="color: black"><span id="username"></span>님 환영합니다.</p>
+    <div id="member_info" style="display: none">
+        <p style="color: black"><span id="username"></span>님 환영합니다.</p>
+        <p style="color: black">권한 : <span id="authority"></span></p>
+    </div>
     <div class="main_nav_button">
-        <button type="button" class="btn btn-dark" onclick="signup()">회원가입</button>
-        <button type="button" class="btn btn-dark" onclick="login()">Login</button>
-        <button type="button" class="btn btn-dark" onclick="member_info()">회원정보변경</button>
-        <button type="button" class="btn btn-dark" onclick="restaurantRegister()">점포 정보 등록</button>
-        <button type="button" class="btn btn-dark" onclick="foodRegister()">점포 식품메뉴 등록</button>
-        <button type="button" class="btn btn-dark" onclick="">관리자 메뉴</button>
-        <button type="button" class="btn btn-dark" onclick="logout()">Logout</button>
+        <div id="not_login">
+            <button type="button" class="btn btn-dark" onclick="signup()">회원가입</button>
+            <button type="button" class="btn btn-dark" onclick="login()">Login</button>
+        </div>
+        <div id="login_Owner">
+            <button type="button" class="btn btn-dark" onclick="restaurantRegister()">점포 정보 등록</button>
+            <button type="button" class="btn btn-dark" onclick="foodRegister()">점포 식품메뉴 등록</button>
+        </div>
+        <div id="login_Admin">
+            <button type="button" class="btn btn-dark" onclick="">관리자 메뉴</button>
+        </div>
+        <div id="login_common">
+            <button type="button" class="btn btn-dark" onclick="member_info()">회원정보변경</button>
+            <button type="button" class="btn btn-dark" onclick="logout()">Logout</button>
+        </div>
     </div>
     <div class="logo">
     </div>

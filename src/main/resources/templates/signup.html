@@ -42,13 +42,18 @@
             let username = $("#username").val();
             let password = $("#password").val();
             let password_check = $("#password_check").val();
+            let adminToken = $("#admin-token").val();
+            let ownerToken = $("#owner-token").val();
+
             $.ajax({
                 type:"POST",
                 url:"/user/signup",
                 data:{
                     "username":username,
                     "password":password,
-                    "password_check":password_check
+                    "password_check":password_check,
+                    "adminToken":adminToken,
+                    "ownerToken":ownerToken
                 },
                 success: function (response) {
                     alert(response);
@@ -84,12 +89,12 @@
     <div id="pwd-failed" style="display:none" class="alert alert-danger" role="alert">비밀번호가 일치하지 않습니다.</div>
 
     <div>
-        <input id="admin-check" type="checkbox" name="admin" onclick="onclickAdmin()" style="margin-top: 40px;">관리자
+        <input id="admin-check" type="checkbox" name="admin" onclick="onclickAdmin()" style="margin-top: 40px;">관리자 가입 (인증암호 필요)
         <input id="admin-token" type="password" name="adminToken" placeholder="관리자 암호" class="login-input-box"
                style="display:none">
     </div>
     <div>
-        <input id="owner-check" type="checkbox" name="owner" onclick="onclickOwner()" style="margin-top: 40px;">점포 점주
+        <input id="owner-check" type="checkbox" name="owner" onclick="onclickOwner()" style="margin-top: 40px;">점주 가입 (인증암호 필요)
         <input id="owner-token" type="password" name="ownerToken" placeholder="점포 점주" class="login-input-box" style="display:none">
     </div>
     <button id="login-id-submit" onclick="signup()">회원 가입</button>
