@@ -22,9 +22,13 @@ public class Food {
     @Column(nullable = false)
     private Integer price;
 
-    public Food(Long restaurantId, String name, Integer price) {
+    @Column(nullable = false)
+    private String imageURL;
+
+    public Food(Long restaurantId, String name, Integer price, String imageURL) {
         this.restaurantId = restaurantId;
         this.name = name;
         this.price = price;
+        this.imageURL = imageURL;
     }
 }

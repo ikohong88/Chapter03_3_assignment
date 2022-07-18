@@ -4,6 +4,8 @@ import com.sparta.week03_3.dto.SignupRequestDto;
 import com.sparta.week03_3.model.User;
 import com.sparta.week03_3.model.UserRoleEnum;
 import com.sparta.week03_3.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -11,12 +13,16 @@ import java.util.regex.Pattern;
 
 @Service
 public class UserService {
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
     private static final String ADMIN_TOKEN = "AAABnv/xRVklrnYxKZ0aHgTBcXukeZygoC";
+    private static final String OWNER_TOKEN = "CCCBnv/xRVkasdGhrZ0aHgTBcXwefZygoC";
 
-    public UserService(UserRepository userRepository) {
+    @Autowired
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public String registerUser(SignupRequestDto requestDto) {
@@ -58,10 +64,15 @@ public class UserService {
                 throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
             }
             role = UserRoleEnum.ADMIN;
+        } else if (requestDto.isOwner()) {
+            if (!requestDto.getOwnerToken().equals(OWNER_TOKEN)) {
+                throw new IllegalArgumentException("점포 점주 암호가 틀려 등록이 불가능합니다.");
+            }
+            role = UserRoleEnum.OWNER;
         }
 
         // 패스워드 암호화
-//        password = passwordEncoder.encode(requestDto.getPassword());
+        password = passwordEncoder.encode(requestDto.getPassword());
 
         User user = new User(username, password, role);
         userRepository.save(user);

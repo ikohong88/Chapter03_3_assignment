@@ -471,6 +471,32 @@ button {
     color: #ffffff;
 }
 
+#cancel-button {
+    border-width: 0;
+    width: 393px;
+    height: 62px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 40px 0 0;
+    padding: 11px 12px;
+    border-radius: 5px;
+    background-color: black;
+
+    font-family: SpoqaHanSansNeo;
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+}
+
 #logout-text {
     position:absolute;
     top:48px;

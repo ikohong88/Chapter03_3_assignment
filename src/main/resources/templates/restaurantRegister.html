@@ -16,23 +16,35 @@
             let minOrderPrice = $("#minOrderPrice").val();
             let deliveryFee = $("#deliveryFee").val();
 
-            $.ajax({
-                type:"POST",
-                url:"/restaurant/register",
-                data:{
-                    "name":name,
-                    "minOrderPrice":minOrderPrice,
-                    "deliveryFee":deliveryFee
-                },
-                success: function (response) {
-                    alert(response);
-                },
-                error: function (response) {
-                    let result = response.responseJSON.errorMessage;
-                    alert(result);
-                    // window.location.reload();
-                }
-            })
+            if (name === "") {
+                alert("점포명을 입력해주세요.")
+            } else if (minOrderPrice === "") {
+                alert("minOrderPrice 값을 입력해주세요.")
+            } else if (deliveryFee === "") {
+                alert("최소 배달료를 입력해주세요.")
+            } else {
+                $.ajax({
+                    type:"POST",
+                    url:"/restaurant/register",
+                    data:{
+                        "name":name,
+                        "minOrderPrice":minOrderPrice,
+                        "deliveryFee":deliveryFee
+                    },
+                    success: function (response) {
+                        alert(response);
+                        window.location.href = "/";
+                    },
+                    error: function (response) {
+                        let result = response.responseJSON.errorMessage;
+                        alert(result);
+                        // window.location.reload();
+                    }
+                })
+            }
+        }
+        function cancel() {
+            window.location.href = "/";
         }
     </script>
 </head>
@@ -47,13 +59,13 @@
 
     <div class="login-id-label">최소주문 가격</div>
     <input type="text" id="minOrderPrice" placeholder="1,000원 ~ 100,000원 사이 | 100원 단위 입력" class="login-input-box">
-    <div id="pwd-check" style="display:none" class="alert alert-danger" role="alert">비밀번호를 최소 4글자 이상으로 작성해주세요.</div>
+    <div id="minOrderPrice-failed" style="display:none" class="alert alert-danger" role="alert"></div>
 
     <div class="login-id-label">기본 배달비</div>
     <input type="text" id="deliveryFee" placeholder="0원 ~ 10,000원 사이 | 500원 단위 입력" class="login-input-box">
-    <div id="pwd-failed" style="display:none" class="alert alert-danger" role="alert">비밀번호가 일치하지 않습니다.</div>
+    <div id="deliveryFee-failed" style="display:none" class="alert alert-danger" role="alert"></div>
     <button id="login-id-submit" onclick="registration()">점포 등록</button>
-    <button>취소</button>
+    <button id="cancel-button" onclick="cancel()">취소</button>
 </div>
 </body>
 </html>

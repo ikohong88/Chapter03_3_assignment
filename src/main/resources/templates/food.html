@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>배송은 여기야 | 점포 정보 등록</title>
+    <script>
+        function registration() {
+            let name = $("#name").val();
+            let FoodPrice = $("#FoodPrice").val();
+            let imageURL = $("#imageURL").val();
+
+            if (name === "") {
+                alert("식품명을 입력해주세요.")
+            } else if (FoodPrice === "") {
+                alert("식품 가격을 입력해주세요.")
+            } else if (imageURL === "") {
+
+            } else {
+                $.ajax({
+                    type:"POST",
+                    url:"/restaurant/{restaurantId}/food/register",
+                    data:{
+                        "name":name,
+                        "price":FoodPrice,
+                        "imageURL":imageURL
+                    },
+                    success: function (response) {
+                        alert(response);
+                        window.location.href = "/";
+                    },
+                    error: function (response) {
+                        let result = response.responseJSON.errorMessage;
+                        alert(result);
+                        // window.location.reload();
+                    }
+                })
+            }
+        }
+        function cancel() {
+            window.location.href = "/";
+        }
+    </script>
+</head>
+<body>
+<div id="login-form">
+    <div id="login-title">배송은 여기야 <br><br> 점포 식품 등록</div>
+    <br><br>
+
+    <div class="login-id-label">식품명</div>
+    <input type="text" id="name" placeholder="식품명" class="login-input-box">
+    <div id="id-failed" style="display:none" class="alert alert-danger" role="alert">중복되는 아이디가 있습니다.</div>
+
+    <div class="login-id-label">식품 가격</div>
+    <input type="text" id="FoodPrice" placeholder="100원 ~ 1,000,000원 사이 | 100원 단위 입력" class="login-input-box">
+    <div id="FoodPrice-failed" style="display:none" class="alert alert-danger" role="alert">식품 가격을 입력해주세요</div>
+
+    <div class="login-id-label">이미지 등록</div>
+    <input type="test" id="imageURL" placeholder="이미지 URL을 등록해주세요." class="login-input-box">
+    <div id="imageURL-failed" style="display:none" class="alert alert-danger" role="alert">비밀번호가 일치하지 않습니다.</div>
+    <button id="login-id-submit" onclick="registration()">식품 등록</button>
+    <button id="cancel-button" onclick="cancel()">취소</button>
+</div>
+</body>
+</html>

@@ -25,6 +25,19 @@
                 box.style.display = "none";
             }
         }
+        function onclickOwner() {
+            // Get the checkbox
+            let checkBox = document.getElementById("owner-check");
+            // Get the output text
+            let box = document.getElementById("owner-token");
+
+            // If the checkbox is checked, display the output text
+            if (checkBox.checked == true){
+                box.style.display = "block";
+            } else {
+                box.style.display = "none";
+            }
+        }
         function signup() {
             let username = $("#username").val();
             let password = $("#password").val();
@@ -39,6 +52,7 @@
                 },
                 success: function (response) {
                     alert(response);
+                    window.location.href = "/user/loginView";
                 },
                 error: function (response) {
                     let result = response.responseJSON.errorMessage;
@@ -46,6 +60,9 @@
                     // window.location.reload();
                 }
             })
+        }
+        function cancel() {
+            window.location.href = "/";
         }
     </script>
 </head>
@@ -71,8 +88,12 @@
         <input id="admin-token" type="password" name="adminToken" placeholder="관리자 암호" class="login-input-box"
                style="display:none">
     </div>
+    <div>
+        <input id="owner-check" type="checkbox" name="owner" onclick="onclickOwner()" style="margin-top: 40px;">점포 점주
+        <input id="owner-token" type="password" name="ownerToken" placeholder="점포 점주" class="login-input-box" style="display:none">
+    </div>
     <button id="login-id-submit" onclick="signup()">회원 가입</button>
-    <button>취소</button>
+    <button id="cancel-button" onclick="cancel()">취소</button>
 </div>
 </body>
 </html>
